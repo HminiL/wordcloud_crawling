@@ -68,26 +68,29 @@ class find_word(object):
     def okky_v3(self):
         driver = self.driver
         contents = []
-        try:
-            for i in range(0, 48001, 24):
-                driver.get(f'https://okky.kr/articles/community?offset={i}&max=24&sort=id&order=desc')
+        while range(10000):
+            try:
+                for i in range(0, 4801, 24):
+                    driver.get(f'https://okky.kr/articles/community?offset={i}&max=24&sort=id&order=desc')
                 # driver.implicitly_wait(3)
-                for j in range(1, 25):
-                    driver.find_element_by_xpath(f'//*[@id="list-article"]/div[4]/ul/li[{j}]/div[1]/h5/a').click()
-                    soup = BeautifulSoup(driver.page_source, 'html.parser')
-                    all_divs = soup.find_all('article', attrs={'class', 'content-text'})
-                    # [[print(p.string) for p in div] for div in all_divs]
-                    [[contents.append(p.string) for p in i] for i in all_divs]
-                    driver.back()
-            print(contents)
-            with open(f'{path}okky_v3.csv', 'w', newline='', encoding='UTF-8') as f:
-                wr = csv.writer(f)
-                wr.writerow(contents)
-            driver.close()
-        except:
-            return "Error 발생"
-
-
+                    for j in range(1, 25):
+                        driver.find_element_by_xpath(f'//*[@id="list-article"]/div[4]/ul/li[{j}]/div[1]/h5/a').click()
+                        soup = BeautifulSoup(driver.page_source, 'html.parser')
+                        all_divs = soup.find_all('article', attrs={'class', 'content-text'})
+                        # [[print(p.string) for p in div] for div in all_divs]
+                        [[contents.append(p.string) for p in i] for i in all_divs]
+                        driver.back()
+                    print(i)
+                break
+            except:
+                driver.back()
+                print("오류 발생" + TypeError)
+                pass
+        print(contents)
+        with open(f'{path}okky_v3.2.csv', 'w', newline='', encoding='UTF-8') as f:
+            wr = csv.writer(f)
+            wr.writerow(contents)
+        driver.close()
 
 
     def page_loop(self):
@@ -129,6 +132,16 @@ class find_word(object):
         plt.imshow(wcloud, interpolation='bilinear')
         plt.axis('off')
         plt.savefig('./data/wcloud.png')
+        with open(f'{path}freq_texts.csv', 'w', newline='', encoding='UTF-8') as f:
+            wr = csv.writer(f)
+            wr.writerow(freq_texts)
+
+    def a(self):
+        a = {'a':1,'b':3}
+        pd.
+        with open(f'{path}test.csv', 'w', newline='', encoding='UTF-8') as f:
+            wr = csv.writer(f)
+            wr.writerow(a)
 
 
 
@@ -138,5 +151,6 @@ if __name__ == '__main__':
     # word.page_loop()
     # word.okky_v2()
     # word.real_trip()
-    word.okky_v3()
+    # word.okky_v3()
     # word.okky_wordcloud()
+    word.a()
